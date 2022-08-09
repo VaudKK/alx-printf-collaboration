@@ -19,15 +19,14 @@ int _strlen(char *format)
 }
 
 /**
- * print_percent - prints the percent sign
+ * print_string - prints a string to the std out
+ * @str: the string to be printed
  *
- * Return: lenght of the char with is 1
+ * Return: length of the string printed
  */
-int print_percent(void)
+int print_string(char *str)
 {
-	char c = '%';
-
-	return (write(1, &c, sizeof(char)));
+	return (write(1, str, sizeof(char) * _strlen(str)));
 }
 
 /**
@@ -63,13 +62,13 @@ int print_decimal(int number)
 }
 
 /**
- * print_char_str - prints characters and strings to std out put
+ * print_helper - prints characters and strings to std out put
  * @format: the specified string format
  * @arguments: string var args
  *
  * Return: length of the string printed
  */
-int print_char_str(const char *format, va_list arguments)
+int print_helper(const char *format, va_list arguments)
 {
 	int i = 0;
 	int length = 0;
@@ -78,29 +77,26 @@ int print_char_str(const char *format, va_list arguments)
 	{
 		if (format[i] == '%' && format[i + 1] == 's')
 		{
-			char *current = va_arg(arguments, char *);
-			int len = write(1, current, sizeof(char) * _strlen(current));
-
+			length += print_string(va_arg(arguments, char *));
 			i += 2;
-			length += len;
 		}
 		else if (format[i] == '%' && format[i + 1] == 'c')
 		{
-			char current = va_arg(arguments, int);
+			char c = va_arg(arguments, int);
 
-			length += write(1, &current, sizeof(char));
+			length += write(1, &c, sizeof(char));
 			i += 2;
 		}
-		else if (format[i] == '%' && format[i + 1] == 'd')
+		else if (format[i] == '%' && (format[i + 1] == 'd' || format[i + 1] == 'i'))
 		{
-			int number = va_arg(arguments, int);
-
-			length += print_decimal(number);
+			length += print_decimal(va_arg(arguments, int));
 			i += 2;
 		}
 		else if (format[i] == '%' && format[i + 1] == '%')
 		{
-			length += print_percent();
+			char c = '%';
+
+			length += write(1, &c, sizeof(char));
 			i += 2;
 		}
 		else
@@ -125,7 +121,7 @@ int _printf(const char *format, ...)
 	int result;
 
 	va_start(arguments, format);
-	result = print_char_str(format, arguments);
+	result = print_helper(format, arguments);
 	va_end(arguments);
 	return (result);
 }
