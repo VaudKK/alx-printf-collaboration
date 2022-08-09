@@ -1,5 +1,6 @@
 #include <unistd.h>
 #include <stdarg.h>
+
 /**
  * _strlen - finds the length of a string
  * @format : the string
@@ -14,8 +15,53 @@ int _strlen(char *format)
 	{
 		i++;
 	}
-	return (i + 1);
+	return (i);
 }
+
+/**
+ * print_percent - prints the percent sign
+ *
+ * Return: lenght of the char with is 1
+ */
+int print_percent(void)
+{
+	char c = '%';
+
+	return (write(1, &c, sizeof(char)));
+}
+
+/**
+ * print_decimal - prints numbers
+ * @number: the number to be printed
+ *
+ * Return: the length of the number
+ */
+int print_decimal(int number)
+{
+	int len = 0;
+
+	if (number < 0)
+	{
+		char c;
+
+		number *= -1;
+
+		c = '-';
+		len += write(1, &c, sizeof(char));
+	}
+
+	if (number != 0)
+	{
+		char c;
+
+		print_decimal(number / 10);
+		c = (number % 10) + '0';
+
+		len += write(1, &c, sizeof(char));
+	}
+	return (len);
+}
+
 /**
  * print_char_str - prints characters and strings to std out put
  * @format: the specified string format
@@ -41,9 +87,20 @@ int print_char_str(const char *format, va_list arguments)
 		else if (format[i] == '%' && format[i + 1] == 'c')
 		{
 			char current = va_arg(arguments, int);
-			int len = write(1, &current, sizeof(char));
 
-			length += len;
+			length += write(1, &current, sizeof(char));
+			i += 2;
+		}
+		else if (format[i] == '%' && format[i + 1] == 'd')
+		{
+			int number = va_arg(arguments, int);
+
+			length += print_decimal(number);
+			i += 2;
+		}
+		else if (format[i] == '%' && format[i + 1] == '%')
+		{
+			length += print_percent();
 			i += 2;
 		}
 		else
@@ -53,7 +110,6 @@ int print_char_str(const char *format, va_list arguments)
 			length++;
 		}
 	}
-
 	return (length);
 }
 
