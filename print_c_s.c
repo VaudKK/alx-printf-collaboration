@@ -2,7 +2,7 @@
 #include <stdarg.h>
 /**
  * _strlen - finds the length of a string
- * @format : the string 
+ * @format : the string
  *
  * Return: returns the length of the string
  */
@@ -10,7 +10,7 @@ int _strlen(char *format)
 {
 	int i = 0;
 
-	while (format [i] != '\0')
+	while (format[i] != '\0')
 	{
 		i++;
 	}
