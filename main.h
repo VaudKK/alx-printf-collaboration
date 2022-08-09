@@ -1,3 +1,6 @@
 #ifndef MAIN_FUNCTIONS
-#define int _printf(const char *format, ...);
+#define MAIN_FUNCTIONS
+
+int _printf(const char *format, ...);
+
 #endif

@@ -1,8 +1,21 @@
 #include <unistd.h>
 #include <stdarg.h>
-#include <stdlib.h>
-#include <string.h>
+/**
+ * _strlen - finds the length of a string
+ * @format : the string 
+ *
+ * Return: returns the length of the string
+ */
+int _strlen(char *format)
+{
+	int i = 0;
 
+	while (format [i] != '\0')
+	{
+		i++;
+	}
+	return (i + 1);
+}
 /**
  * print_char_str - prints characters and strings to std out put
  * @format: the specified string format
@@ -20,7 +33,7 @@ int print_char_str(const char *format, va_list arguments)
 		if (format[i] == '%' && format[i + 1] == 's')
 		{
 			char *current = va_arg(arguments, char *);
-			int len = write(1, current, sizeof(char) * strlen(current));
+			int len = write(1, current, sizeof(char) * _strlen(current));
 
 			i += 2;
 			length += len;
