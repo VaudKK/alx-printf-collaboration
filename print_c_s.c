@@ -45,18 +45,15 @@ int print_decimal(int number)
 		char c;
 
 		number *= -1;
-
 		c = '-';
 		len += write(1, &c, sizeof(char));
 	}
-
 	if (number != 0)
 	{
 		char c;
 
 		print_decimal(number / 10);
 		c = (number % 10) + '0';
-
 		len += write(1, &c, sizeof(char));
 	}
 	return (len);
@@ -95,9 +92,12 @@ int print_helper(const char *format, va_list arguments)
 		}
 		else if (format[i] == '%' && format[i + 1] == '%')
 		{
-			char c = '%';
-
-			length += write(1, &c, sizeof(char));
+			length += print_percent();
+			i += 2;
+		}
+		else if (format[i] == '%' && format[i + 1] == 'b')
+		{
+			length += print_binary(va_arg(arguments, int));
 			i += 2;
 		}
 		else
