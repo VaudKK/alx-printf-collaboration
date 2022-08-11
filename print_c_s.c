@@ -68,8 +68,7 @@ int print_decimal(int number)
  */
 int print_helper(const char *format, va_list arguments)
 {
-	int i = 0;
-	int length = 0;
+	int i = 0, length = 0;
 
 	while (format[i] != '\0')
 	{
@@ -80,9 +79,7 @@ int print_helper(const char *format, va_list arguments)
 		}
 		else if (format[i] == '%' && format[i + 1] == 'c')
 		{
-			char c = va_arg(arguments, int);
-
-			length += write(1, &c, sizeof(char));
+			length += print_char(va_arg(arguments, int));
 			i += 2;
 		}
 		else if (format[i] == '%' && (format[i + 1] == 'd' || format[i + 1] == 'i'))
@@ -102,10 +99,12 @@ int print_helper(const char *format, va_list arguments)
 		}
 		else
 		{
+			length += print_helper_extended(format, arguments, &i);
 			write(1, format + i, 1);
 			i++;
 			length++;
 		}
+		
 	}
 	return (length);
 }

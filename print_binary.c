@@ -1,4 +1,5 @@
 #include <unistd.h>
+#include <stdarg.h>
 #include "main.h"
 
 /**
@@ -27,6 +28,32 @@ int print_binary(int number)
 	}
 	return (length);
 }
+
+/**
+ * print_unsigned_int - prints an unsigned integer
+ * @number: the number to be printed
+ *
+ * Return: length of the number printed
+ */
+int print_unsigned_int(int number)
+{
+	if (number < 0)
+		number *= -1;
+
+	return (print_decimal(number));
+}
+
+/**
+ * print_char - prints a character
+ * @c: character to be printed
+ *
+ * Return: length of c
+ */
+int print_char(char c)
+{
+	return (write(1, &c, sizeof(char)));
+}
+
 /**
  * print_percent - prints a %
  * Return: length
@@ -36,4 +63,25 @@ int print_percent(void)
 	char c = '%';
 
 	return (write(1, &c, sizeof(char)));
+}
+
+/**
+ * print_helper_extended - extends print_helper
+ * @format: the string to print
+ * @arguments: the arguments
+ * @i: current index
+ *
+ * Return: length
+ */
+int print_helper_extended(const char *format, va_list arguments, int *i)
+{
+	int length = 0;
+
+	if (format[*i] == '%' && format[*i + 1] == 'u')
+	{
+		length += print_unsigned_int(va_arg(arguments, int));
+		*i += 2;
+	}
+
+	return (length);
 }
