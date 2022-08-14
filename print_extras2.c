@@ -1,9 +1,10 @@
 #include <unistd.h>
 /**
  * print_hex - converts a decimal to a hexadecimal
- * @num : the number being converted
+ * @n: the number being converted
  * @isUpper: flag to check if it is upper or lower
- * Return:length
+ *
+ * Return: length
  */
 int print_hex(unsigned int n, int isUpper)
 {
@@ -12,7 +13,7 @@ int print_hex(unsigned int n, int isUpper)
 	int length = 0;
 	int i, v;
 
-	for (i = 0;n > 0; )
+	for (i = 0; n > 0; )
 	{
 		hexNum[i++] = n % 16;
 		n /= 16;
