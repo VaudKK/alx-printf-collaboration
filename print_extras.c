@@ -24,8 +24,7 @@ int print_binary(int number)
 	{
 		char c = binaryNum[j] + '0';
 
-		length += write(1, &c, sizeof(char));
-	}
+		length += write(1, &c, sizeof(char)); }
 	return (length);
 }
 
@@ -82,6 +81,15 @@ int print_helper_extended(const char *format, va_list arguments, int *i)
 		length += print_unsigned_int(va_arg(arguments, int));
 		*i += 2;
 	}
-
+	if (format[*i] == '%' && format[*i + 1] == 'o')
+	{
+		length += print_oct(va_arg(arguments, int));
+		*i += 2;
+	}
+	if (format[*i] == '%' && format[*i + 1] == 'X')
+	{
+		length += print_hex(va_arg(arguments, int));
+		*i += 2;
+	}
 	return (length);
 }

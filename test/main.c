@@ -37,6 +37,12 @@ int main(void)
    	_printf("String:[%s]\n", "I am a string !");
         printf("String:[%s]\n", "I am a string !");
 
+	_printf("Unsigned octal:[%o]\n", ui); 
+	printf("Unsigned octal:[%o]\n", ui);
+
+	_printf("Unsigned hexadecimal:[%x, %X]\n", ui, ui);
+	printf("Unsigned hexadecimal:[%x, %X]\n", ui, ui);
+
 	len = _printf("Percent:[%%]\n");
 	len2 = printf("Percent:[%%]\n");
    	 _printf("Len:[%d]\n", len);
