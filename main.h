@@ -4,7 +4,7 @@
 int _printf(const char *format, ...);
 int print_binary(int number);
 int print_percent(void);
-int print_hex(int num);
+int print_hex(int num,int isUpper);
 int print_oct(int num);
 int print_decimal(int);
 int print_char(char);

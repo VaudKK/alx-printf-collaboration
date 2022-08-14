@@ -86,9 +86,24 @@ int print_helper_extended(const char *format, va_list arguments, int *i)
 		length += print_oct(va_arg(arguments, int));
 		*i += 2;
 	}
-	if (format[*i] == '%' && format[*i + 1] == 'X')
+	if (format[*i] == '%' && (format[*i + 1] == 'X' || format[*i + 1] == 'x'))
 	{
-		length += print_hex(va_arg(arguments, int));
+		int isUpper;
+
+		if (format[*i + 1] == 'X')
+		{
+			isUpper = 1;
+		}
+		else
+		{
+			isUpper = 0;
+		}
+		length += print_hex(va_arg(arguments, unsigned int), isUpper);
+		*i += 2;
+	}
+	if (format[*i] == '%' && format[*i + 1] == 'o')
+	{
+		length  += print_oct(va_arg(arguments, unsigned int));
 		*i += 2;
 	}
 	return (length);

@@ -2,10 +2,10 @@
 /**
  * print_hex - converts a decimal to a hexadecimal
  * @num : the number being converted
- *
+ * @isUpper: flag to check if it is upper or lower
  * Return:length
  */
-int print_hex(int n)
+int print_hex(unsigned int n, int isUpper)
 {
 	int hexNum[64];
 	char c;
@@ -26,11 +26,18 @@ int print_hex(int n)
 		}
 		else
 		{
-			c = (hexNum[v] + 55);
+			if (isUpper == 1)
+			{
+				c = (hexNum[v] + 55);
+			}
+			else
+			{
+				c = (hexNum[v] + 87);
+			}
 			length += write(1, &c, sizeof(char));
 		}
 	}
-		return (length);
+	return (length);
 }
 /**
  * print_oct -converts a decimal to an oct
@@ -38,7 +45,7 @@ int print_hex(int n)
  *
  * Return:length
  */
-int print_oct(int num)
+int print_oct(unsigned int num)
 {
 	char c;
 	int length = 0;
